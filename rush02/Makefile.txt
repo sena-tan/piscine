@@ -1,0 +1,42 @@
+# Compiler and flags
+CC		=	cc
+CFLAGS	=	-Wall -Werror -Wextra -I$(INCDIR)
+
+# Directories
+SRCDIR	=	src
+OBJDIR	=	objects
+INCDIR	=	include
+
+# Source files
+SRCS	=	$(SRCDIR)/alg/ft_free_arr.c 
+
+# Object files
+OBJS	=	$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+
+# Name
+NAME	=	libft.a
+
+# Default target
+all: $(NAME)
+
+# Build the library
+$(NAME): $(OBJS)
+	@ar rcs $@ $^
+
+# Compile object files
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+# Clean object files
+clean:
+	@rm -rf $(OBJDIR)
+
+# Fully clean everything
+fclean: clean
+	@rm -f $(NAME)
+
+# Rebuild everything
+re: fclean all
+
+.PHONY: all clean fclean re
